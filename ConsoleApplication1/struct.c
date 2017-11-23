@@ -1,3 +1,4 @@
+#define MAX 100
 typedef struct StudyProject{
 	char when[10];
 	char description[1000];

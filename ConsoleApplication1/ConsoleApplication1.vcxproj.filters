@@ -21,5 +21,8 @@
     <ClCompile Include="dbms.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
+    <ClCompile Include="struct.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
