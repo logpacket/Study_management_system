@@ -13,5 +13,5 @@ typedef struct StudySchedule{
 }SS;
 typedef struct Study{
 	UI users[MAX];
-	SS schedule[50];
+	SS schedule[MAX];
 }S;
