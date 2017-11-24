@@ -4,8 +4,14 @@ int save(char *filepath, char *value){
 	strlen(value);
 	FILE *fp = NULL;
 	fp = fopen(filepath, "a");
-	if (fputs(value, fp) == EOF) return -1;
-	else return 0;
+	if (fputs(value, fp) == EOF){
+		fclose(fp);
+		return -1;
+	}
+	else {
+		fclose(fp);
+		return 0;
+	}
 }
 int remove(char *filepath, char *key){
 	char temp[10];
@@ -17,8 +23,14 @@ int remove(char *filepath, char *key){
 		if (temp == key) continue;
 		fprintf(fp2, "%s", temp);
 	}
-	if (remove(filepath)) return -1;
+	if (remove(filepath)) {
+		fclose(fp);
+		fclsoe(fp2)
+		return -1;
+	}
 	rename("temp.txt", filepath);
+	fclose(fp);
+	fclsoe(fp2);	
 	return 0;
 }
 int edit(char *filepath, char  *key,char * value) {
@@ -35,8 +47,14 @@ int edit(char *filepath, char  *key,char * value) {
 		}
 		fprintf(fp2, "%s", temp);
 	}
-	if (remove(filepath)) return -1;
+	if (remove(filepath)) {
+		fclose(fp);
+		fclsoe(fp2)
+		return -1;
+	}
 	rename("temp.txt", filepath);
+	fclose(fp);
+	fclsoe(fp2)
 	return 0;
 }
 char * read(char *filepath, char *key) {
@@ -49,5 +67,6 @@ char * read(char *filepath, char *key) {
 		if (tempkey != NULL)
 			break;
 	}
+	fclose(fp);	
 	return tempkey;
 }
