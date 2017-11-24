@@ -17,8 +17,14 @@ int remove(char *filepath, char *key){
 		if (temp == key) continue;
 		fprintf(fp2, "%s", temp);
 	}
-	if (remove(filepath)) return -1;
+	if (remove(filepath)) {
+		fclose(fp);
+		fclose(fp2);
+		return -1;
+	}
 	rename("temp.txt", filepath);
+	fclose(fp);
+	fclose(fp2);
 	return 0;
 }
 int edit(char *filepath, char  *key,char * value) {
@@ -29,14 +35,24 @@ int edit(char *filepath, char  *key,char * value) {
 	fp2 = fopen("temp.txt", "a");
 	while (fscanf(fp, "%s", temp)) {
 		if (temp == key) {
-			if (fputs(value, fp2) == EOF) return -1;
+			if (fputs(value, fp2) == EOF) {
+				fclose(fp);
+				fclose(fp2);
+				return -1;
+			}
 			else
 				continue;
 		}
 		fprintf(fp2, "%s", temp);
 	}
-	if (remove(filepath)) return -1;
+	if (remove(filepath)) {
+		fclose(fp);
+		fclose(fp2);
+		return -1;
+	}
 	rename("temp.txt", filepath);
+	fclose(fp);
+	fclose(fp2);
 	return 0;
 }
 char * read(char *filepath, char *key) {
@@ -49,5 +65,6 @@ char * read(char *filepath, char *key) {
 		if (tempkey != NULL)
 			break;
 	}
+	fclose(fp);
 	return tempkey;
 }
