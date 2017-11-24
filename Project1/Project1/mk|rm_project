@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <string.h>
+#include <Windows.h>
+
+#define MAX 100
+
+typedef struct StudyProject {
+	char when[10];
+	char description[1000];
+}SP;
+typedef struct UserInformation {
+	char name[MAX];
+}UI;
+typedef struct StudySchedule {
+	int when[10];
+	char description[100];
+	
+}SS;
+typedef struct Study {
+	UI users[MAX];
+	SS schedule[50];
+}S;
+
+void makeproject() {
+	SP project[1];
+	char filepath[10] = "project.db";
+	char result[1010] = { '\0', };
+	while (1) {
+		printf("과제의 날짜 설정(type 20170124)\n->");
+		scanf("%s", project->when);
+		if (strlen(project->when) != 8) {
+			printf("type을 지켜주세요!");
+			Sleep(500);
+			system("cls");
+			continue;
+		}
+		printf("과제를 작성해주세요.\n->");
+		scanf("%s", project->description);
+		strcat(result, project->when);
+		strcat(result,":");
+		strcat(result, project->description);
+		save(filepath, result);
+		printf("성공적으로 과제가 작성되었습니다!");
+		Sleep(500);
+		system("cls");
+		break;
+	}
+}
+
+void rmproject() {
+	SP project;
+	char filepath[10] = "project.db";
+	while (1) {
+		char y_n;
+		printf("지울 과제의 날짜를 입력해주세요!(type 20171108)\n->");
+		scanf("%s", project->when);
+		if (strlen(project->when) != 8) {
+			printf("type을 지켜주세요!");
+			Sleep(500);
+			system("cls");
+			continue;
+		}
+		printf("정말로 %s날의 과제를 지우시겠습니까?(y,n)",project->when);
+		y_n = getch();
+		if (!(y_n == 'y' || y_n == 'Y')) continue;
+		rm(filepath, project->when);
+	}
+}
