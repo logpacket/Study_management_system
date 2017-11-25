@@ -1,10 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <Windows.h>
-
 void makeproject() {
 	SP project[1];
-	char filepath[10] = "project.db";
+	char filepath[11] = "project.db";
 	char result[1010] = { '\0', };
 	while (1) {
 		printf("과제의 날짜 설정(type 20170124)\n->");
@@ -26,21 +22,25 @@ void makeproject() {
 			system("cls");
 			continue;
 		}
-		break;
 	}
 		strcat(result, project->when);
 		strcat(result,":");
 		strcat(result, project->description);
-		save(filepath, result);
+		strcat(result, "\n");
+		if (save(filepath, result) == -1) {
+			printf("이미 해당하는 날짜의 과제가 있습니다!!");
+			Sleep(500);
+			system("cls");
+			return;
+		}
 		printf("성공적으로 과제가 작성되었습니다!");
 		Sleep(500);
 		system("cls");
+		return;
 }
 void readproject() {
-    SP project[20];
-	UI user[MAX];
-	char filepath[10] = "project.db";
-	char result[1000] = { '\0', };
+	SP project[20];
+	char filepath[11] = "project.db";
 	while (1) {
 		printf("확인하고싶은 과제의 날짜를 입력해주세요.(type 20170811)\n->");
 		scanf("%s", project->when);
@@ -50,21 +50,25 @@ void readproject() {
 			system("cls");
 			continue;
 		}
-		strcpy(project->description, read(filepath, project->when));
-		if ( project->description[0] == '-1') {
+		char *result = read(filepath, project->when);
+		if (result == NULL) {
 			printf("과제가 존재하지 않습니다!");
-			Sleep("cls");
+			Sleep(500);
 			system("cls");
-			continue;
+			break;
 		}
-		printf("%s일의 과제\n",project->when);
-		printf("%s", project->description);
-		break;
+		printf("%s일의 과제\n", project->when);
+		printf("%s\n", result + 9);
+		printf("선택창으로 가려면 아무키나 눌러주세요.");
+		char y_n;
+		y_n = getch();
+		system("cls");
+		return;
 	}
+	return;
 }
-void rmproject() {
+void rmproject(s) {
 	SP project[1];
-	char filepath[10] = "project.db";
 	while (1) {
 		char y_n;
 		printf("지울 과제의 날짜를 입력해주세요!(type 20171108)\n->");
@@ -75,27 +79,28 @@ void rmproject() {
 			system("cls");
 			continue;
 		}
-		printf("정말로 %s날의 과제를 지우시겠습니까?(y,n)",project->when);
+		printf("정말로 %s날의 과제를 지우시겠습니까?(y,n)\n",project->when);
 		y_n = getch();
 		if (!(y_n == 'y' || y_n == 'Y')) {
 			system("cls");
-			continue;
+			break;
 		}
 		if (rm(filepath, project->when) == -1) {
 			printf("과제를 지우는 데 실패했습니다!");
 			Sleep(500);
 			system("cls");
-			continue;
+			break;
 		}
 		printf("성공적으로 과제가 지워졌습니다!");
 		Sleep(500);
 		system("cls");
+		break;
 	}
+	return;
 }
 void editproject() {
 	SP project[1];
-	char filepath[10] = "project.db";
-	char result[1010] = { '\0', };
+	char filepath[11] = "project.db";
 	while (1) {
 		printf("수정할 과제의 날짜를 입력해주세요.(type 20170124)\n->");
 		scanf("%s", project->when);
@@ -113,19 +118,17 @@ void editproject() {
 			system("cls");
 			continue;
 		}
+		strcat(project->description, "\n");
 		if (edit(filepath, project->when, project->description) == -1) {
 			printf("과제 수정에 실패했습니다!");
 			Sleep(500);
 			system("cls");
-			continue;
+			break;
 		}
 		break;
 	}
 	printf("성공적으로 과제가 수정되었습니다!");
 	Sleep(500);
 	system("cls");
-}
-int main() {
-	makeproject();
-	readproject();
+	return;
 }
