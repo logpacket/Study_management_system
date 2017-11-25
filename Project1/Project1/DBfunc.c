@@ -2,6 +2,27 @@
 #include<string.h>
 #include<stdlib.h>
 #define BUF_SIZE 1024
+char * read(char *filepath, char *key) {
+	int i = 0;
+	char temp[BUF_SIZE];
+	char *temp2 = (char*)malloc(sizeof(char)*BUF_SIZE);
+	char * tempkey;
+	FILE *fp = NULL;
+	if ((fp = fopen(filepath, "r")) == NULL) {
+		return NULL;
+	}
+	while (fgets(temp, BUF_SIZE, fp)) {
+		strcpy(temp2, temp);
+		tempkey = strtok(temp, ":");
+		if (!strcmp(tempkey, key)) {
+			i = 1;
+			break;
+		}
+	}
+	fclose(fp);
+	char * result = (i == 0) ? NULL : temp2;
+	return result;
+}
 int rm(char *filepath, char *key) {
 	int i = 0;
 	char temp[BUF_SIZE];
@@ -13,6 +34,11 @@ int rm(char *filepath, char *key) {
 	}
 	FILE *fp2 = NULL;
 	if ((fp2 = fopen(filepath, "a")) == NULL) {
+		return -1;
+	}
+	if (read(filepath, key) != NULL) {
+		fclose(fp);
+		fclose(fp2);
 		return -1;
 	}
 	while (fgets(temp, BUF_SIZE, fp)) {
@@ -50,6 +76,11 @@ int edit(char *filepath, char  *key, char * value) {
 	if ((fp2 = fopen(filepath, "a")) == NULL) {
 		return -1;
 	}
+	if (read(filepath, key) != NULL) {
+		fclose(fp);
+		fclose(fp2);
+		return -1;
+	}
 	while (fgets(temp, BUF_SIZE, fp)) {
 		i++;
 		strcpy(temp2, temp);
@@ -74,27 +105,7 @@ int edit(char *filepath, char  *key, char * value) {
 	rename("temp.txt", filepath);
 	return 0;
 }
-char * read(char *filepath, char *key) {
-	int i = 0;
-	char temp[BUF_SIZE];
-	char *temp2 = (char*)malloc(sizeof(char)*BUF_SIZE);
-	char * tempkey;
-	FILE *fp = NULL;
-	if ((fp = fopen(filepath, "r")) == NULL) {
-		return NULL;
-	}
-	while (fgets(temp,BUF_SIZE,fp)) {
-		strcpy(temp2, temp);
-		tempkey = strtok(temp,":");
-		if (!strcmp(tempkey,key)) {
-			i = 1;
-			break;
-		}
-	}
-	fclose(fp);
-	char * result = (i == 0)?NULL : temp2;
-	return result;
-}
+
 
 int save(char *filepath, char *value) {
 	char * key = (char*)malloc(sizeof(char)*BUF_SIZE);
@@ -103,7 +114,10 @@ int save(char *filepath, char *value) {
 		return -1;
 	}
 	key = strtok(value, ":");
-	if (read(filepath, key) != NULL) return -1;
+	if (read(filepath, key) != NULL) {
+		fclose(fp);
+		return -1;
+	}
 	if (fputs(value, fp) == EOF) {
 		fclose(fp);
 		return -1;
