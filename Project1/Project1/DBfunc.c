@@ -4,7 +4,9 @@
 #define BUF_SIZE 1024
 int save(char *filepath, char *value) {
 	FILE *fp = NULL;
-	fp = fopen(filepath, "a");
+	if ((fp = fopen(filepath, "a")) == NULL) {
+		return -1;
+	}
 	if (fputs(value, fp) == EOF) {
 		fclose(fp);
 		return -1;
@@ -20,9 +22,13 @@ int rm(char *filepath, char *key) {
 	char temp2[BUF_SIZE];
 	char *tempkey;
 	FILE *fp = NULL;
-	fp = fopen(filepath, "r");
+	if ((fp = fopen(filepath, "r")) == NULL) {
+		return -1;
+	}
 	FILE *fp2 = NULL;
-	fp2 = fopen("temp.txt", "a");
+	if ((fp2 = fopen(filepath, "a")) == NULL) {
+		return -1;
+	}
 	while (fgets(temp, BUF_SIZE, fp)) {
 		i++;
 		strcpy(temp2, temp);
@@ -53,9 +59,13 @@ int edit(char *filepath, char  *key, char * value) {
 	char temp2[BUF_SIZE];
 	char *tempkey;
 	FILE *fp = NULL;
-	fp = fopen(filepath, "r");
+	if ((fp = fopen(filepath, "r")) == NULL) {
+		return -1;
+	}
 	FILE *fp2 = NULL;
-	fp2 = fopen("temp.txt", "a");
+	if ((fp2 = fopen(filepath, "a")) == NULL) {
+		return -1;
+	}
 	while (fgets(temp, BUF_SIZE, fp)) {
 		i++;
 		strcpy(temp2, temp);
@@ -85,7 +95,9 @@ char * read(char *filepath, char *key) {
 	char *temp = (char*)malloc(sizeof(char)*BUF_SIZE);
 	char * tempkey;
 	FILE *fp = NULL;
-	fp = fopen(filepath, "r");
+	if ((fp = fopen(filepath, "r")) == NULL) {
+		return NULL;
+	}
 	while (fgets(temp,BUF_SIZE,fp)) {
 		if (temp == NULL) {
 			return NULL;
@@ -109,6 +121,7 @@ char * read(char *filepath, char *key) {
 	//edit("test.txt", "ls", "af:af:af\n");
 
 	//read함수 사용의 올바른 예
+	//오류시 NULL값 반환
 	/*char *n = read("test.txt", "af");
 	printf("\n%s",n);
 	free(n);*/
