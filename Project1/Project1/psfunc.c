@@ -15,7 +15,7 @@ typedef struct StudySchedule {
 
 }SS;
 /*사용법
-char check=1; ( 1은 과제 2는 일정)
+int check=1; ( 1은 과제 2는 일정)
 char day[9]="20170111"; (무조건 배열에 넣어서 인자로 넘기기)
 makeps(check,day);
  */
