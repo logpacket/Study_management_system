@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include<Windows.h>
 #include<conio.h>
-#define leapyear(year) ((year)%4==0 && ( (year)%100!=0 || (year)%400==0 )) //À±³âÆÇÁ¤¸ÅÅ©·Î
+#define leapyear(year) ((year)%4==0 && ( (year)%100!=0 || (year)%400==0 )) //ìœ¤ë…„íŒì •ë§¤í¬ë¡œ
 
 int check=0;
 char day[9];
@@ -57,13 +57,13 @@ void title(void)
 	printf("\n");
 	printf("\n");
 	printf("\n");
-	printf("                  1  ¢¹ ½ºÅÍµğ ±×·ì ½ºÄÉÁÙ °ü¸® ");
-	printf("                  2  ¢¹ ½ºÅÍµğ °úÁ¦ °ü¸® \n");
+	printf("                  1  â–· ìŠ¤í„°ë”” ê·¸ë£¹ ìŠ¤ì¼€ì¤„ ê´€ë¦¬ ");
+	printf("                  2  â–· ìŠ¤í„°ë”” ê³¼ì œ ê´€ë¦¬ \n");
 	
 
 	while (1)
 	{
-		//ÀÔ·ÂÀ» ¹ŞÀ½
+		//ì…ë ¥ì„ ë°›ìŒ
 
 		key = _getch();
 		switch (key)
@@ -75,10 +75,10 @@ void title(void)
 			task();
 			break;
 		case 51:
-			//3¹øÇÔ¼ö
+			//3ë²ˆí•¨ìˆ˜
 			break;
 		case 52:
-			//4¹øÇÔ¼ö
+			//4ë²ˆí•¨ìˆ˜
 			break;
 		}
 	}
@@ -87,95 +87,95 @@ void title(void)
 int schedule()
 {
 	system("cls");
-	int year, month; // ¿¬µµ¿Í ¿ùÀ» ÀúÀåÇÒ º¯¼ö
-	int totalday[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 }; // °¢ ´ŞÀÇ ÃÑÀÏ ¼ö (Ã¹¹øÂ° ¼ö´Â Á¦¿Ü)
+	int year, month; // ì—°ë„ì™€ ì›”ì„ ì €ì¥í•  ë³€ìˆ˜
+	int totalday[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 }; // ê° ë‹¬ì˜ ì´ì¼ ìˆ˜ (ì²«ë²ˆì§¸ ìˆ˜ëŠ” ì œì™¸)
 	int lastyear, day, i;
 	printf("\n");
 	printf("\n");
 	printf("\n");
 	printf("\n");
 	printf("\n");
-	printf("       ¸î³â ¸î¿ùÀÇ ´Ş·ÂÀ» Ãâ·ÂÇÏ½Ã°Ú½À´Ï±î?: ");
+	printf("       ëª‡ë…„ ëª‡ì›”ì˜ ë‹¬ë ¥ì„ ì¶œë ¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?: ");
 	scanf("%d %d", &year, &month);
-	if (month == 2 && leapyear(year)) // ÇØ´ç³âµµ°¡ À±³âÀÌ¸é, 2¿ùÀº ÃÑ 29ÀÏ
+	if (month == 2 && leapyear(year)) // í•´ë‹¹ë…„ë„ê°€ ìœ¤ë…„ì´ë©´, 2ì›”ì€ ì´ 29ì¼
 		totalday[2] = 29;
 
-	lastyear = year - 1; // ÀÛ³â ¸»±îÁö ÁøÇàµÈ ¿äÀÏÀ» °è»êÇÏ±â À§ÇØ lastyear¸¦ ¼±¾ğ
+	lastyear = year - 1; // ì‘ë…„ ë§ê¹Œì§€ ì§„í–‰ëœ ìš”ì¼ì„ ê³„ì‚°í•˜ê¸° ìœ„í•´ lastyearë¥¼ ì„ ì–¸
 
 	day = (lastyear + (lastyear / 4) - (lastyear / 100) + (lastyear / 400) + 1) % 7;
 
 
-	for (i = 1; i<month; i++) // year³â month¿ù Á÷Àü±îÁöÀÇ ÃÑ ÀÏ ¼ö¸¦ ±¸ÇÏ±â À§ÇÑ for¹®
+	for (i = 1; i<month; i++) // yearë…„ monthì›” ì§ì „ê¹Œì§€ì˜ ì´ ì¼ ìˆ˜ë¥¼ êµ¬í•˜ê¸° ìœ„í•œ forë¬¸
 		day += totalday[i];
 
-	day %= 7; // year³â month¿ù 1ÀÏÀÇ ½ÃÀÛ ¿äÀÏ
+	day %= 7; // yearë…„ monthì›” 1ì¼ì˜ ì‹œì‘ ìš”ì¼
 
 
-	printf("\n           %d³â %dÀÏ\n", year, month); // year³â month¿ù Å¸ÀÌÆ² Ãâ·Â
-	printf("\n  ÀÏ  ¿ù  È­  ¼ö  ¸ñ  ±İ  Åä"); // ¿äÀÏ ¸®½ºÆ® Ãâ·Â
+	printf("\n           %dë…„ %dì¼\n", year, month); // yearë…„ monthì›” íƒ€ì´í‹€ ì¶œë ¥
+	printf("\n  ì¼  ì›”  í™”  ìˆ˜  ëª©  ê¸ˆ  í† "); // ìš”ì¼ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥
 
 
 
 	for (i = -day; i<totalday[month]; i++)
 	{
-		if ((i + day) % 7 == 0) // Ãâ·ÂµÉ Â÷·Ê°¡ ÀÏ¿äÀÏÀÌ¸é, °³Çà
+		if ((i + day) % 7 == 0) // ì¶œë ¥ë  ì°¨ë¡€ê°€ ì¼ìš”ì¼ì´ë©´, ê°œí–‰
 			printf("\n");
-		if (i<0) // month¿ù 1ÀÏÀÌ Ãâ·ÂµÇ±â ÀÌÀüÀÇ ³¯Â¥´Â °ø¹éÀ¸·Î Ã¤¿ò
+		if (i<0) // monthì›” 1ì¼ì´ ì¶œë ¥ë˜ê¸° ì´ì „ì˜ ë‚ ì§œëŠ” ê³µë°±ìœ¼ë¡œ ì±„ì›€
 			printf("    ");
-		else // ³¯Â¥ Ãâ·Â
+		else // ë‚ ì§œ ì¶œë ¥
 			printf("%4d", i + 1);
 	}
 	printf("\n\n");
 
 	printf("\n");
-	printf("  ¾î´À ³¯Â¥ÀÇ ÀÏÁ¤À» °ü¸®ÇÒÁö ÀÔ·ÂÇØÁÖ¼¼¿ä(¿¹ 20170822) :");
+	printf("  ì–´ëŠ ë‚ ì§œì˜ ì¼ì •ì„ ê´€ë¦¬í• ì§€ ì…ë ¥í•´ì£¼ì„¸ìš”(ì˜ˆ 20170822) :");
 	scanf("%s\n", day);
 	check++;
 	//makeps(check, day);
 }
 int task(){
 	system("cls");
-	int year, month; // ¿¬µµ¿Í ¿ùÀ» ÀúÀåÇÒ º¯¼ö
-	int totalday[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 }; // °¢ ´ŞÀÇ ÃÑÀÏ ¼ö (Ã¹¹øÂ° ¼ö´Â Á¦¿Ü)
+	int year, month; // ì—°ë„ì™€ ì›”ì„ ì €ì¥í•  ë³€ìˆ˜
+	int totalday[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 }; // ê° ë‹¬ì˜ ì´ì¼ ìˆ˜ (ì²«ë²ˆì§¸ ìˆ˜ëŠ” ì œì™¸)
 	int lastyear, day, i;
 	printf("\n");
 	printf("\n");
 	printf("\n");
 	printf("\n");
 	printf("\n");
-	printf("       ¸î³â ¸î¿ùÀÇ ´Ş·ÂÀ» Ãâ·ÂÇÏ½Ã°Ú½À´Ï±î?: ");
+	printf("       ëª‡ë…„ ëª‡ì›”ì˜ ë‹¬ë ¥ì„ ì¶œë ¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?: ");
 	scanf("%d %d", &year, &month);
-	if (month == 2 && leapyear(year)) // ÇØ´ç³âµµ°¡ À±³âÀÌ¸é, 2¿ùÀº ÃÑ 29ÀÏ
+	if (month == 2 && leapyear(year)) // í•´ë‹¹ë…„ë„ê°€ ìœ¤ë…„ì´ë©´, 2ì›”ì€ ì´ 29ì¼
 		totalday[2] = 29;
 
-	lastyear = year - 1; // ÀÛ³â ¸»±îÁö ÁøÇàµÈ ¿äÀÏÀ» °è»êÇÏ±â À§ÇØ lastyear¸¦ ¼±¾ğ
+	lastyear = year - 1; // ì‘ë…„ ë§ê¹Œì§€ ì§„í–‰ëœ ìš”ì¼ì„ ê³„ì‚°í•˜ê¸° ìœ„í•´ lastyearë¥¼ ì„ ì–¸
 
 	day = (lastyear + (lastyear / 4) - (lastyear / 100) + (lastyear / 400) + 1) % 7;
 
 
-	for (i = 1; i<month; i++) // year³â month¿ù Á÷Àü±îÁöÀÇ ÃÑ ÀÏ ¼ö¸¦ ±¸ÇÏ±â À§ÇÑ for¹®
+	for (i = 1; i<month; i++) // yearë…„ monthì›” ì§ì „ê¹Œì§€ì˜ ì´ ì¼ ìˆ˜ë¥¼ êµ¬í•˜ê¸° ìœ„í•œ forë¬¸
 		day += totalday[i];
 
-	day %= 7; // year³â month¿ù 1ÀÏÀÇ ½ÃÀÛ ¿äÀÏ
+	day %= 7; // yearë…„ monthì›” 1ì¼ì˜ ì‹œì‘ ìš”ì¼
 
 
-	printf("\n           %d³â %dÀÏ\n", year, month); // year³â month¿ù Å¸ÀÌÆ² Ãâ·Â
-	printf("\n  ÀÏ  ¿ù  È­  ¼ö  ¸ñ  ±İ  Åä"); // ¿äÀÏ ¸®½ºÆ® Ãâ·Â
+	printf("\n           %dë…„ %dì¼\n", year, month); // yearë…„ monthì›” íƒ€ì´í‹€ ì¶œë ¥
+	printf("\n  ì¼  ì›”  í™”  ìˆ˜  ëª©  ê¸ˆ  í† "); // ìš”ì¼ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥
 
 
 
 	for (i = -day; i<totalday[month]; i++)
 	{
-		if ((i + day) % 7 == 0) // Ãâ·ÂµÉ Â÷·Ê°¡ ÀÏ¿äÀÏÀÌ¸é, °³Çà
+		if ((i + day) % 7 == 0) // ì¶œë ¥ë  ì°¨ë¡€ê°€ ì¼ìš”ì¼ì´ë©´, ê°œí–‰
 			printf("\n");
-		if (i<0) // month¿ù 1ÀÏÀÌ Ãâ·ÂµÇ±â ÀÌÀüÀÇ ³¯Â¥´Â °ø¹éÀ¸·Î Ã¤¿ò
+		if (i<0) // monthì›” 1ì¼ì´ ì¶œë ¥ë˜ê¸° ì´ì „ì˜ ë‚ ì§œëŠ” ê³µë°±ìœ¼ë¡œ ì±„ì›€
 			printf("    ");
-		else // ³¯Â¥ Ãâ·Â
+		else // ë‚ ì§œ ì¶œë ¥
 			printf("%4d", i + 1);
 	}
 	printf("\n\n");
 	printf("\n");
-	printf("  ¾î´À ³¯Â¥ÀÇ °úÁ¦¸¦ °ü¸®ÇÒÁö ÀÔ·ÂÇØÁÖ¼¼¿ä(¿¹ 20170822) :");
+	printf("  ì–´ëŠ ë‚ ì§œì˜ ê³¼ì œë¥¼ ê´€ë¦¬í• ì§€ ì…ë ¥í•´ì£¼ì„¸ìš”(ì˜ˆ 20170822) :");
 	scanf("%s\n", day);
 	check+=2;
 	//makeps(check, day);
