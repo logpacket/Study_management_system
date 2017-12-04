@@ -24,7 +24,7 @@ void makeps(int check, char *day) {               //과제 또는 일정을 만�
 	}
 	while (1) {
 		printf("%s일의 %s(을/를) 작성해주세요.(최대1000자)\n->", day, which);
-		scanf("%s", project->description);
+		gets(project->description);
 		if (strlen(project->description) > 1000) {         //과제 또는 일정의 내용이 100자가 넘는지 strlen함수를 이용하여 검사
 			printf("%s(은/는) 1000자를 넘어갈 수 없습니다!", which);
 			Sleep(500);
@@ -125,7 +125,7 @@ void editps(int check, char *day) {								//일정또는 과제를 수정하는
 	}
 	while (1) {
 		printf("%s일의 수정할 %s의 내용을 입력해주세요.(최대1000자)\n->", day, which);
-		scanf("%s", project->description);
+		gets(project->description);
 		if (strlen(project->description) > 1000) {			//내용이 1000자를 넘어갈 수 없다.
 			printf("%s(은/는) 1000자를 넘어갈 수 없습니다!", which);
 			Sleep(500);
